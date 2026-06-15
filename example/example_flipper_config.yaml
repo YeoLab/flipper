@@ -1,0 +1,31 @@
+# Required Skipper paths.
+SKIPPER_CONFIG: /path/to/your/flipper/example/example_skipper_config.yaml
+SKIPPER_OUTPUT: /path/to/your/flipper/example/example_skipper_run
+
+# Required Flipper paths.
+WORKDIR: /path/to/save/output
+TOOLS: /path/to/your/flipper/tools 
+
+# Required Differential comparison. Change in binding is always calculated as (TREATMENT/CONTROL), so look for positive log2FC for up-regulation in TREATMENT.
+CONTROL: DMSO 
+TREATMENT: 10R
+
+# Required DIBS parameters.
+LOG2FC_THRESHOLD: 1
+PVAL_THRESHOLD: 0.05
+SUBSTRATE_CONTROL: INf
+NORMALIZATION: MOR_hier # one of either MOR_hier or EDA_hier. 
+SPECIES: Homo sapiens # Used for GO analysis
+
+# # Specific methods for EDASeq (will be ignored if method is not EDA or EDA_hier). 
+# GC_METHOD: full # Options: loess, median, upper, full
+# LENGTH_METHOD: full # Options: loess, median, upper, full
+# BETWEEN_METHOD: full # Options: median, upper full
+
+# Optional DIBS parameters, set True/False.
+MAKE_BIGWIGS: False
+HOMER: False
+METADENSITY: False
+
+# Specific methods for metadensity (will be ingorned if metadensity is not true)
+# FEATURES: "first_exon,exon,intron,last_exon" # Some combination of 'five_prime_UTR', 'first_exon', 'exon', 'intron', 'last_exon', 'CDS', 'three_prime_UTR'

@@ -1,0 +1,29 @@
+# Required Skipper info
+SKIPPER_CONFIG: /tscc/nfs/home/kflanagan/scratch/ch_diffbind/example/yeo_lab_internal_example_skipper_config.yaml
+SKIPPER_OUTPUT: /tscc/nfs/home/kflanagan/scratch/ch_diffbind/example/example_skipper_run
+
+# Required Output path
+WORKDIR: /tscc/nfs/home/kflanagan/scratch/ch_diffbind/example/output
+TOOLS: /tscc/nfs/home/kflanagan/scratch/ch_diffbind/tools 
+SPECIES: Homo sapiens
+
+# Required Differential comparison, we always have (TREATMENT/CONTROL), so look for + log2FC for up-regulation in TREATMENT.
+CONTROL: DMSO 
+TREATMENT: 10R
+
+# Required DIBS parameters, for normalization: one of either MOR, EDA_full, EDA_median, or EDA_loess
+LOG2FC_THRESHOLD: 1
+PVAL_THRESHOLD: 0.05
+SUBSTRATE_CONTROL: INf
+NORMALIZATION: MOR_hier # one of either MOR, EDA_full, EDA_median, or EDA_loess
+
+# Optional DIBS parameters, set true/false. For RNASEQ, simply delete the RNASEQ parameter if no RNASEQ DESeq2 data will be used. See example under Examples folder.
+IP_ONLY: False
+MAKE_BIGWIGS: False
+HOMER: False
+METADENSITY: False
+
+# # Specific methods for EDAseq (will be ignored if method is not EDA or EDA_hier). 
+# GC_METHOD: full # Options: loess, median, upper, full
+# LENGTH_METHOD: full # Options: loess, median, upper, full
+# BETWEEN_METHOD: full # Options: median, upper full

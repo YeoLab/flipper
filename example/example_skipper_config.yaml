@@ -1,0 +1,30 @@
+################################# BASIC INPUTS (required for all runs) ####################################
+
+# Required work/organizational files. 
+WORKDIR: /path/to/your/flipper/example/example_skipper_run
+MANIFEST: /path/to/your/flipper/example/example_skipper_run/example_skipper_manifest.csv
+TOOL_DIR: NA
+
+# Required Annotation Files
+GFF_SOURCE: NA
+GFF: NA
+GENOME: NA
+ACCESSION_RANKINGS: NA
+BLACKLIST: NA # set to None for no blacklist
+
+# Annotation files
+PARTITION: NA
+FEATURE_ANNOTATIONS: /path/to/your/flipper/example/example_skipper_run/example_anno.tsv.gz
+STAR_DIR: /path/to/your/flipper/example/example_skipper_run/example_star_dir
+
+# Skipper parameters
+protocol: NA
+UMI_SIZE: NA
+INFORMATIVE_READ: 1
+OVERDISPERSION_MODE: NA   # input or clip
+NORMALIZATION_MODE: NA # new or classic
+THRESHOLD_MIN: NA
+
+################################# ADVANCED INPUTS (required for additional analyses) ####################################
+
+HOMER: NA

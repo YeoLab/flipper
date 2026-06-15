@@ -1,0 +1,12 @@
+name: Flipper_main
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - r-base=4.3
+  - bioconductor-deseq2
+  - bioconductor-edaseq
+  - r-tidyverse
+  - r-svglite
+  - r-data.table

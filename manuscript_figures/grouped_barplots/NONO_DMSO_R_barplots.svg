@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='504.00pt' height='360.00pt' viewBox='0 0 504.00 360.00'>
+<g class='svglite'>
+<defs>
+  <style type='text/css'><![CDATA[
+    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+    .svglite text {
+      white-space: pre;
+    }
+    .svglite g.glyphgroup path {
+      fill: inherit;
+      stroke: none;
+    }
+  ]]></style>
+</defs>
+<rect width='100%' height='100%' style='stroke: none; fill: #FFFFFF;'/>
+<defs>
+  <clipPath id='cpMC4wMHw1MDQuMDB8MC4wMHwzNjAuMDA='>
+    <rect x='0.00' y='0.00' width='504.00' height='360.00' />
+  </clipPath>
+</defs>
+<g clip-path='url(#cpMC4wMHw1MDQuMDB8MC4wMHwzNjAuMDA=)'>
+<rect x='0.00' y='0.00' width='504.00' height='360.00' style='stroke-width: 1.07; stroke: #FFFFFF; fill: #FFFFFF;' />
+</g>
+<defs>
+  <clipPath id='cpNzQuNTV8MjkwLjI1fDI5LjcwfDI1NC4wMA=='>
+    <rect x='74.55' y='29.70' width='215.70' height='224.30' />
+  </clipPath>
+</defs>
+<g clip-path='url(#cpNzQuNTV8MjkwLjI1fDI5LjcwfDI1NC4wMA==)'>
+<rect x='74.55' y='29.70' width='215.70' height='224.30' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' />
+<rect x='87.39' y='51.09' width='17.97' height='192.72' style='stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #FF0000;' />
+<rect x='105.37' y='39.90' width='17.97' height='203.91' style='stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #0000FF;' />
+<rect x='241.46' y='203.19' width='17.97' height='40.61' style='stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #FF0000;' />
+<rect x='259.44' y='225.64' width='17.97' height='18.16' style='stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #0000FF;' />
+<rect x='138.75' y='77.76' width='17.97' height='166.04' style='stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #FF0000;' />
+<rect x='156.72' y='174.25' width='17.97' height='69.56' style='stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #0000FF;' />
+<rect x='190.10' y='224.67' width='17.97' height='19.13' style='stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #FF0000;' />
+<rect x='208.08' y='242.34' width='17.97' height='1.46' style='stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #0000FF;' />
+</g>
+<g clip-path='url(#cpMC4wMHw1MDQuMDB8MC4wMHwzNjAuMDA=)'>
+<polyline points='74.55,254.00 74.55,29.70 ' style='stroke-width: 1.07; stroke-linecap: square;' />
+<text x='69.62' y='248.90' text-anchor='end' style='font-size: 14.00px; font-family: "DejaVu Sans";' textLength='8.91px' lengthAdjust='spacingAndGlyphs'>0</text>
+<text x='69.62' y='234.31' text-anchor='end' style='font-size: 14.00px; font-family: "DejaVu Sans";' textLength='26.72px' lengthAdjust='spacingAndGlyphs'>100</text>
+<text x='69.62' y='202.77' text-anchor='end' style='font-size: 14.00px; font-family: "DejaVu Sans";' textLength='35.62px' lengthAdjust='spacingAndGlyphs'>1000</text>
+<text x='69.62' y='145.74' text-anchor='end' style='font-size: 14.00px; font-family: "DejaVu Sans";' textLength='35.62px' lengthAdjust='spacingAndGlyphs'>5000</text>
+<text x='69.62' y='103.01' text-anchor='end' style='font-size: 14.00px; font-family: "DejaVu Sans";' textLength='44.53px' lengthAdjust='spacingAndGlyphs'>10000</text>
+<text x='69.62' y='70.22' text-anchor='end' style='font-size: 14.00px; font-family: "DejaVu Sans";' textLength='44.53px' lengthAdjust='spacingAndGlyphs'>15000</text>
+<text x='69.62' y='42.58' text-anchor='end' style='font-size: 14.00px; font-family: "DejaVu Sans";' textLength='44.53px' lengthAdjust='spacingAndGlyphs'>20000</text>
+<polyline points='71.81,243.80 74.55,243.80 ' style='stroke-width: 1.07; stroke-linecap: butt;' />
+<polyline points='71.81,229.21 74.55,229.21 ' style='stroke-width: 1.07; stroke-linecap: butt;' />
+<polyline points='71.81,197.67 74.55,197.67 ' style='stroke-width: 1.07; stroke-linecap: butt;' />
+<polyline points='71.81,140.64 74.55,140.64 ' style='stroke-width: 1.07; stroke-linecap: butt;' />
+<polyline points='71.81,97.91 74.55,97.91 ' style='stroke-width: 1.07; stroke-linecap: butt;' />
+<polyline points='71.81,65.12 74.55,65.12 ' style='stroke-width: 1.07; stroke-linecap: butt;' />
+<polyline points='71.81,37.48 74.55,37.48 ' style='stroke-width: 1.07; stroke-linecap: butt;' />
+<polyline points='74.55,254.00 290.25,254.00 ' style='stroke-width: 1.07; stroke-linecap: square;' />
+<polyline points='105.37,256.74 105.37,254.00 ' style='stroke-width: 1.07; stroke-linecap: butt;' />
+<polyline points='156.72,256.74 156.72,254.00 ' style='stroke-width: 1.07; stroke-linecap: butt;' />
+<polyline points='208.08,256.74 208.08,254.00 ' style='stroke-width: 1.07; stroke-linecap: butt;' />
+<polyline points='259.44,256.74 259.44,254.00 ' style='stroke-width: 1.07; stroke-linecap: butt;' />
+<text transform='translate(112.58,266.14) rotate(-45)' text-anchor='end' style='font-size: 14.00px; font-family: "DejaVu Sans";' textLength='94.34px' lengthAdjust='spacingAndGlyphs'>DeepRNA-reg</text>
+<text transform='translate(163.94,266.14) rotate(-45)' text-anchor='end' style='font-size: 14.00px; font-family: "DejaVu Sans";' textLength='48.41px' lengthAdjust='spacingAndGlyphs'>Ad-hoc</text>
+<text transform='translate(215.29,266.14) rotate(-45)' text-anchor='end' style='font-size: 14.00px; font-family: "DejaVu Sans";' textLength='82.39px' lengthAdjust='spacingAndGlyphs'>Diff-Skipper</text>
+<text transform='translate(266.65,266.14) rotate(-45)' text-anchor='end' style='font-size: 14.00px; font-family: "DejaVu Sans";' textLength='47.97px' lengthAdjust='spacingAndGlyphs'>Flipper</text>
+<text x='182.40' y='350.78' text-anchor='middle' style='font-size: 18.00px; font-family: "DejaVu Sans";' textLength='75.97px' lengthAdjust='spacingAndGlyphs'>Program</text>
+<text transform='translate(18.61,141.85) rotate(-90)' text-anchor='middle' style='font-size: 18.00px; font-family: "DejaVu Sans";' textLength='229.28px' lengthAdjust='spacingAndGlyphs'>Differential regions found</text>
+<rect x='301.21' y='108.85' width='197.31' height='65.99' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' />
+<text x='306.69' y='127.66' style='font-size: 16.00px; font-family: "DejaVu Sans";' textLength='72.33px' lengthAdjust='spacingAndGlyphs'>Direction</text>
+<rect x='306.69' y='134.80' width='17.28' height='17.28' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' />
+<rect x='307.40' y='135.51' width='15.86' height='15.86' style='stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #FF0000;' />
+<rect x='306.69' y='152.08' width='17.28' height='17.28' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' />
+<rect x='307.40' y='152.79' width='15.86' height='15.86' style='stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #0000FF;' />
+<text x='329.45' y='148.55' style='font-size: 14.00px; font-family: "DejaVu Sans";' textLength='143.06px' lengthAdjust='spacingAndGlyphs'>Upregulated binding</text>
+<text x='329.45' y='165.83' style='font-size: 14.00px; font-family: "DejaVu Sans";' textLength='163.59px' lengthAdjust='spacingAndGlyphs'>Downregulated binding</text>
+</g>
+</g>
+</svg>
