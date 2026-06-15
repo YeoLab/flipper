@@ -1,5 +1,5 @@
 # Flipper
-![Flipper cartoon](documents/logo.png)
+![Flipper cartoon](documents/Flipper_logo.jpg)
 
 For finding when binding flips.
 
