@@ -85,18 +85,25 @@ profiles/example_slurm/config.yaml
 
 This section provides a small example run of Flipper. The example uses a heavily modified version of Skipper output that includes only the inputs required for Flipper and has been subset to chromosome 22. The underlying Skipper run is derived from the NONO dataset described in [https://doi.org/10.64898/2026.03.13.711628](https://doi.org/10.64898/2026.03.13.711628), which was originally generated in [https://doi.org/10.1038/s41589-023-01270-0](https://doi.org/10.1038/s41589-023-01270-0).
 
-This example assumes that you are working on a Linux-based system with Slurm set up and have already gone through all installation steps above (including adjusting the example profile).
+This example assumes that you are working on a Linux-based system with Slurm set up and have already gone through all installation steps above (including adjusting the example_slurm profile).
 
-1. **Edit config files**
-   Open both the `example/example_flipper_config.yaml` and the `example/example_skipper_config.yaml` config files using any text editor and change every instance of `/path/to/your/Flipper` to the **absolute** path to the Flipper directory you just cloned. Also, change every instance of `/path/to/save/output` with the **absolute** path to whatever location you want to save your Flipper outputs to.
+1. **Setup an interactive node**
+    While this step is technically optional, it is highly recommended to run Fkipper on interactive nodes. This is especially important for your first Flipper run, as the initial snakeconda installations can eat up a surprising amount of ram (see [troubleshooting](#Troubleshooting)). Thus, we recommend filling in the command below with your partition (-p), QOS (-q) and account (-A) information and setting up an interactive node for use with this example. 
+
+    ```bash
+    srun -N 1 -c 1 -t 8:00:00 -p -q -A --mem 16G --pty /bin/bash
+    ```
+
+2. **Edit config files**
+   Open both the `example/example_flipper_config.yaml` and the `example/example_skipper_config.yaml` config files using any text editor and change every instance of `/path/to/your/flipper` to the **absolute** path to the Flipper directory you just cloned. Also, change every instance of `/path/to/save/output` with the **absolute** path to whatever location you want to save your Flipper outputs to.
 
 Please note that this example has both the "MAKE_BIGWIGS" and "HOMER" options set to false. This is done to minimize processing time and input size for this example. For more information on these options, please see the [Config file](#config-file) section. 
 
-2. **Run Flipper**  
+3. **Run Flipper**  
    ```bash
    unset SLURM_JOB_ID # required if running on an interactive node, which is recommended
    
-   snakemake -ks Flipper.py --configfile example/example_flipper_config.yaml --profile ../profiles/tscc2_snakemake9
+   snakemake -ks Flipper.py --configfile example/example_flipper_config.yaml --profile profiles/example_slurm
    ```
 
 NOTE: The first run of Flipper needs to set up all of the necessary conda environments via snakeconda. As such, this initial Flipper run will be quite slow, but subsequent runs will be much faster.
@@ -198,7 +205,8 @@ Flipper generates 3 types of log files. The first 2 types can be found within th
 
 However, in some cases additional information from Snakemake may be necessary, in which cases users are encouraged to investigate the log files in `WORKDIR/.snakemake/slurm_logs`. These log files are organized by rules and contain additional information on the Snakemake run.
 
-2. TODO: troubleshooting section for if the initial conda installation stalls. 
+2. snakeconda installation.
+When running Flipper for the first time, it is not uncommon to run into `CreateCondaEnvironmentException:` errors. While their are a variety of factors that can contribute to these errors (make sure your conda is updated) we have found that these errors can usually be attributed to snakeconda running out of ram when setting up some of the heavier environemnts. Switching to an interactive node with more ram usually solves the issue. 
 
 3. Problems with EDASeq_hier normalization.
 If you are using EDASeq_hier normalization and you find your Snakemake runs are reguraly breaking at the normalization rule, it is likely that there are some problems with the combination of EDASeq normalization inputs you are giving to Flipper. Our first recommendation is to try the run with MOR_hier normalization to confirm that the problem is with EDASeq. We then recommend trying out a few different combinations of EDASeq normalization parameters to see if you can find one that works. Again, as we cannot guarantee that EDASeq is suitable for all datasets, defaulting to MOR_hier may be necessary. 
