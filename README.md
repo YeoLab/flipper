@@ -219,5 +219,8 @@ If you observe that many of your jobs are dying without any explanation (e.g. mo
   ```
 This is also the common cause of many timeout errors, as Flipper generally provides significantly more than enough time for all rules. 
 
-5. Monitoring pipeline. 
+5. Skipper version.
+Flipper was designed in tandem with the latest version of Skipper (Skipper 2.0) and is not compatible with older versions of Skipper. If you are using an older version of Skipper, please replace it with the newest version available at: [https://github.com/YeoLab/skipper](https://github.com/YeoLab/skipper)
+
+6. Monitoring pipeline. 
 `squeue -u $USER -o "%.18i %.10P %.20j %.10u %.2t %.10M %.6D %.20R %.80k"` will show currently active jobs (helpful to see if certain rules are getting stuck.)
