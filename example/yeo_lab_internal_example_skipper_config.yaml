@@ -1,8 +1,8 @@
 ################################# BASIC INPUTS (required for all runs) ####################################
 
 # Required work/organizational files. 
-WORKDIR: /tscc/nfs/home/kflanagan/scratch/ch_diffbind/example/example_skipper_run
-MANIFEST: /tscc/nfs/home/kflanagan/scratch/ch_diffbind/example/example_skipper_run/example_skipper_manifest.csv
+WORKDIR: /tscc/projects/ps-yeolab4/software/flipper/1.0.0/bin/flipper/example/example_skipper_run
+MANIFEST: /tscc/projects/ps-yeolab4/software/flipper/1.0.0/bin/flipper/example/example_skipper_run/example_skipper_manifest.csv
 TOOL_DIR: NA
 
 # Required Annotation Files
@@ -14,8 +14,8 @@ BLACKLIST: NA
 
 # Annotation files
 PARTITION: NA
-FEATURE_ANNOTATIONS: /tscc/nfs/home/kflanagan/scratch/ch_diffbind/example/example_skipper_run/example_anno.tsv.gz
-STAR_DIR: /tscc/nfs/home/kflanagan/scratch/ch_diffbind/example/example_skipper_run/example_star_dir ###!!!### just need the chrom lengths file
+FEATURE_ANNOTATIONS: /tscc/projects/ps-yeolab4/software/flipper/1.0.0/bin/flipper/example/example_skipper_run/example_anno.tsv.gz
+STAR_DIR: /tscc/projects/ps-yeolab4/software/flipper/1.0.0/bin/flipper/example/example_skipper_run/example_star_dir
 
 # Skipper parameters
 protocol: NA
