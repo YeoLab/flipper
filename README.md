@@ -52,7 +52,7 @@ All other required packages are already inside the images and are pulled automat
 
 ## Software environments
 
-Flipper does not build Conda environments. Every rule runs inside one of two prebuilt images published on Docker Hub:
+Every rule runs inside one of two prebuilt images published on Docker Hub:
 
 | Image | Contents | Rules |
 |---|---|---|
@@ -77,8 +77,6 @@ This profile is configured for running Flipper on a single-node machine. Two set
 
 - **`apptainer-prefix`** — where the `.sif` images are cached. Pick a location with a 30 GB free that is readable from every node that will run jobs.
 - **`apptainer-args`** — add a `--bind` for every directory your config points at that lives outside `WORKDIR`: `SKIPPER_OUTPUT`, `TOOLS`, `STAR_DIR`, `FEATURE_ANNOTATIONS`, `GENOME`, `GFF`, and the Skipper `TOOL_DIR`. Anything not bound is simply invisible inside the container. Keep `--cleanenv`; it stops a stray `R_LIBS` or `PYTHONPATH` in your shell from leaking in and shadowing the image's packages.
-
-Do **not** add `use-conda` to the profile. Combined with the container settings, Snakemake would build Conda environments *inside* the containers — the slowest possible path, and the cause of the `CreateCondaEnvironmentException` described under [Troubleshooting](#Troubleshooting).
 
 ## Running Flipper on HPCs
 
@@ -243,10 +241,10 @@ However, in some cases additional information from Snakemake may be necessary, i
 
 2. Container problems.
 
-- `The apptainer or singularity command has to be available...` — You need to make sure the singularity is setup on your system.
-- `No such file or directory` for an input that plainly exists — the path is almost certainly not bound into the container. Add a `--bind` for it to `apptainer-args` in your profile. This is the single most common failure when migrating a working config: only `WORKDIR` is bound automatically.
-- The image download fails on compute nodes — they likely have no outbound network. Pull the images on a login node and set `R_CONTAINER` / `PYTHON_CONTAINER` in your Flipper config to the resulting `.sif` paths.
-- An R or Python package appears to be the wrong version — a host `R_LIBS`, `R_LIBS_USER` or `PYTHONPATH` is leaking in. Make sure `--cleanenv` is present in `apptainer-args`.
+- `The apptainer or singularity command has to be available...`, You need to make sure the singularity is setup on your system.
+- `No such file or directory` for an input that plainly exists, the path is almost certainly not bound into the container. Add a `--bind` for it to `apptainer-args` in your profile. This is the single most common failure when migrating a working config: only `WORKDIR` is bound automatically.
+- The image download fails on compute nodes, they likely have no outbound network. Pull the images on a login node and set `R_CONTAINER` / `PYTHON_CONTAINER` in your Flipper config to the resulting `.sif` paths.
+- An R or Python package appears to be the wrong version, a host `R_LIBS`, `R_LIBS_USER` or `PYTHONPATH` is leaking in. Make sure `--cleanenv` is present in `apptainer-args`.
 
 3. Problems with EDASeq_hier normalization.
 If you are using EDASeq_hier normalization and you find your Snakemake runs are reguraly breaking at the normalization rule, it is likely that there are some problems with the combination of EDASeq normalization inputs you are giving to Flipper. Our first recommendation is to try the run with MOR_hier normalization to confirm that the problem is with EDASeq. We then recommend trying out a few different combinations of EDASeq normalization parameters to see if you can find one that works. Again, as we cannot guarantee that EDASeq is suitable for all datasets, defaulting to MOR_hier may be necessary. 
