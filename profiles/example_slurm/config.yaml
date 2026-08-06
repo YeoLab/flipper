@@ -7,9 +7,16 @@ skip-script-cleanup: true
 retries: 3
 nolock: true
 keep-going: true
-use-conda: true
-conda-prefix: "PATH/TO/SAVE/CONDA_ENVS"
-conda-frontend: conda
+# Flipper runs entirely out of containers on this branch -- no conda envs.
+software-deployment-method: [apptainer]
+# Where Snakemake caches the .sif files it builds from the docker:// images.
+# Must be on shared storage readable from every compute node.
+apptainer-prefix: "PATH/TO/SAVE/SINGULARITY_IMAGES"
+# --cleanenv keeps your shell's R_LIBS / PYTHONPATH / PERL5LIB out of the
+# container. Add a --bind for every directory your config points at that lives
+# outside WORKDIR: SKIPPER_OUTPUT, TOOLS, STAR_DIR, FEATURE_ANNOTATIONS, GENOME,
+# GFF, and the Skipper TOOL_DIR.
+apptainer-args: "--cleanenv --bind PATH/TO/YOUR/DATA"
 rerun-incomplete: true
 jobs: 30
 executor: slurm

@@ -37,14 +37,48 @@ Please note that Flipper and Skipper operate under similar frameworks. As such, 
    conda create -n snakemake9 snakemake=9.12.0
    ```
 
-All other required packages and environments will be installed automatically by Snakemake and Conda the first time you run Flipper.
+   Conda is used **only** to install Snakemake itself. Flipper's own dependencies do not come from Conda — see the next step.
+
+4. **Make Singularity/Apptainer available**
+   Every Flipper rule runs inside one of two prebuilt container images, so you need a container runtime. On an HPC this is usually a module:
+
+   ```bash
+   module load singularitypro/3.11   # TSCC; your cluster's module name may differ
+   ```
+
+   Check it worked with `singularity --version`. Either `singularity` or `apptainer` on your `PATH` will do.
+
+All other required packages are already inside the images and are pulled automatically the first time you run Flipper. There are no Conda environments to solve.
+
+## Software environments
+
+Flipper does not build Conda environments. Every rule runs inside one of two prebuilt images published on Docker Hub:
+
+| Image | Contents | Rules |
+|---|---|---|
+| `howardxu520/flipper:R_v1.0` | R 4.4.3 / Bioconductor 3.20 — DESeq2, EDASeq, clusterProfiler, GenomicRanges, tidyverse | `preproccess`, `calc_norm_factors`, `differential_analysis`, `sample_background_windows_by_region`, `finemap_windows`, `Gene_ontology` |
+| `howardxu520/flipper:python_v1.0` | Python 3.10 (numpy/pandas/scipy/matplotlib/pyBigWig) plus bedtools, samtools, `bedGraphToBigWig` and HOMER | `get_nt_coverage`, `make_scaled_bigwig_from_bedgraph`, `run_homer`, `Prep_Metadensity_Annotation`, `Window_Metadensity` |
+
+The `envs/*.yaml` files record the Conda specifications the two images were built from. They are kept for reference and are no longer read by the pipeline.
+
+Snakemake pulls each image once, converts it to a `.sif`, and caches it under `apptainer-prefix`. If your compute nodes have no outbound network, pull them on a login node instead and point Flipper at the local files from your config:
+
+```yaml
+R_CONTAINER: "/abs/path/to/flipper-r.sif"
+PYTHON_CONTAINER: "/abs/path/to/flipper-py.sif"
+```
 
 ## Configuring Your Snakemake Profile
 
 Snakemake profiles allow you to supply additional arguments without cluttering the command line.  
 An example profile is provided at:`profiles/example_basic/config.yaml`
 
-This profile is configured for running Flipper on a single-node machine. The only required change is to specify a path for saving Conda environments (choose any location on your machine with sufficient storage space).
+This profile is configured for running Flipper on a single-node machine. Two settings need your attention:
+
+- **`apptainer-prefix`** — where the `.sif` images are cached. Pick a location with a 30 GB free that is readable from every node that will run jobs.
+- **`apptainer-args`** — add a `--bind` for every directory your config points at that lives outside `WORKDIR`: `SKIPPER_OUTPUT`, `TOOLS`, `STAR_DIR`, `FEATURE_ANNOTATIONS`, `GENOME`, `GFF`, and the Skipper `TOOL_DIR`. Anything not bound is simply invisible inside the container. Keep `--cleanenv`; it stops a stray `R_LIBS` or `PYTHONPATH` in your shell from leaking in and shadowing the image's packages.
+
+Do **not** add `use-conda` to the profile. Combined with the container settings, Snakemake would build Conda environments *inside* the containers — the slowest possible path, and the cause of the `CreateCondaEnvironmentException` described under [Troubleshooting](#Troubleshooting).
 
 ## Running Flipper on HPCs
 
@@ -70,7 +104,8 @@ An example profile is provided in:
 profiles/example_slurm/config.yaml
 ```
 
-- **CONDA prefix** Do not forget to change this to a path on your cluster. 
+- **`apptainer-prefix`** Do not forget to change this to a path on your cluster. It must be on shared storage that every compute node can read, not node-local scratch.
+- **`apptainer-args`** Add a `--bind` for every input directory outside `WORKDIR` (see [Configuring Your Snakemake Profile](#configuring-your-snakemake-profile)).
 - **Slurm Account and partition:** You must enter your own account and partition information.
 - **Cluster-specific options:** Some systems require additional details. For example:  
 
@@ -88,7 +123,7 @@ This section provides a small example run of Flipper. The example uses a heavily
 This example assumes that you are working on a Linux-based system with Slurm set up and have already gone through all installation steps above (including adjusting the example_slurm profile).
 
 1. **Setup an interactive node**
-    While this step is technically optional, it is highly recommended to run Fkipper on interactive nodes. This is especially important for your first Flipper run, as the initial snakeconda installations can eat up a surprising amount of ram (see [troubleshooting](#Troubleshooting)). Thus, we recommend filling in the command below with your partition (-p), QOS (-q) and account (-A) information and setting up an interactive node for use with this example. 
+    While this step is technically optional, it is highly recommended to run Flipper on interactive nodes. Thus, we recommend filling in the command below with your partition (-p), QOS (-q) and account (-A) information and setting up an interactive node for use with this example. Remember to `module load singularitypro/3.11` (or your cluster's equivalent) on the interactive node as well.
 
     ```bash
     srun -N 1 -c 1 -t 8:00:00 -p -q -A --mem 16G --pty /bin/bash
@@ -101,12 +136,13 @@ Please note that this example has both the "MAKE_BIGWIGS" and "HOMER" options se
 
 3. **Run Flipper**  
    ```bash
+   module load singularitypro/3.11 # or your cluster's container runtime module
    unset SLURM_JOB_ID # required if running on an interactive node, which is recommended
    
    snakemake -ks Flipper.py --configfile example/example_flipper_config.yaml --profile profiles/example_slurm
    ```
 
-NOTE: The first run of Flipper needs to set up all of the necessary conda environments via snakeconda. As such, this initial Flipper run will be quite slow, but subsequent runs will be much faster.
+NOTE: On the first run, Snakemake downloads the two container images from Docker Hub and converts them to `.sif` files under your `apptainer-prefix`. This makes the initial run slow (the R image is several GB); subsequent runs reuse the cached images and start immediately.
 
 NOTE: If difficulties arise while running this example (or any run of Flipper) please see the [Troubleshooting](#Troubleshooting) section and/or open an issue. 
 
@@ -205,8 +241,12 @@ Flipper generates 3 types of log files. The first 2 types can be found within th
 
 However, in some cases additional information from Snakemake may be necessary, in which cases users are encouraged to investigate the log files in `WORKDIR/.snakemake/slurm_logs`. These log files are organized by rules and contain additional information on the Snakemake run.
 
-2. snakeconda installation.
-When running Flipper for the first time, it is not uncommon to run into `CreateCondaEnvironmentException:` errors. While their are a variety of factors that can contribute to these errors (make sure your conda is updated) we have found that these errors can usually be attributed to snakeconda running out of ram when setting up some of the heavier environemnts. Switching to an interactive node with more ram usually solves the issue. 
+2. Container problems.
+
+- `The apptainer or singularity command has to be available...` — You need to make sure the singularity is setup on your system.
+- `No such file or directory` for an input that plainly exists — the path is almost certainly not bound into the container. Add a `--bind` for it to `apptainer-args` in your profile. This is the single most common failure when migrating a working config: only `WORKDIR` is bound automatically.
+- The image download fails on compute nodes — they likely have no outbound network. Pull the images on a login node and set `R_CONTAINER` / `PYTHON_CONTAINER` in your Flipper config to the resulting `.sif` paths.
+- An R or Python package appears to be the wrong version — a host `R_LIBS`, `R_LIBS_USER` or `PYTHONPATH` is leaking in. Make sure `--cleanenv` is present in `apptainer-args`.
 
 3. Problems with EDASeq_hier normalization.
 If you are using EDASeq_hier normalization and you find your Snakemake runs are reguraly breaking at the normalization rule, it is likely that there are some problems with the combination of EDASeq normalization inputs you are giving to Flipper. Our first recommendation is to try the run with MOR_hier normalization to confirm that the problem is with EDASeq. We then recommend trying out a few different combinations of EDASeq normalization parameters to see if you can find one that works. Again, as we cannot guarantee that EDASeq is suitable for all datasets, defaulting to MOR_hier may be necessary. 

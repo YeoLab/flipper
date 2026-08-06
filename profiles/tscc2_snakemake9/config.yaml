@@ -8,10 +8,14 @@ nolock: true
 default-storage-provider: none
 rerun-triggers: mtime
 keep-going: true
-use-singularity: true
-use-conda: true
-conda-prefix: "/tscc/nfs/home/$USER/scratch/snakeconda/"
-conda-frontend: conda
+# Flipper runs entirely out of containers on this branch -- no conda envs.
+software-deployment-method: [apptainer]
+apptainer-prefix: "/tscc/nfs/home/$USER/scratch/singularity/"
+# --cleanenv keeps your shell's R_LIBS / PYTHONPATH / PERL5LIB out of the
+# container. The binds cover every TSCC path a Flipper config can point at:
+# WORKDIR, SKIPPER_OUTPUT, TOOLS, STAR_DIR, FEATURE_ANNOTATIONS, GENOME, GFF and
+# the Skipper TOOL_DIR.
+apptainer-args: "--cleanenv --bind /tscc/nfs/home --bind /tscc/projects --bind /tscc/lustre"
 rerun-incomplete: true
 jobs: 30
 executor: slurm
@@ -25,7 +29,6 @@ default-resources:
   mem_mb: 20000
   slurm_extra: "--qos=condo"
 # slurm_extra: "--qos=hcg-csd792"  # to use our nodes
-use-envmodules: true
 show-failed-logs: true
 slurm-logdir: "slurm_logs"
 # add --exclude=NODE (e.g. tscc-1-18) to slurm extra to remove problematic nodes. 

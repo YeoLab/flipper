@@ -52,7 +52,25 @@ features = config.get("FEATURES", "first_exon,exon,intron,last_exon")
 pval_threshold = config.get("PVAL_THRESHOLD", 0.05)
 log2fc_threshold = config.get("LOG2FC_THRESHOLD", 1)
 
-# Complete some minor processing from the Skipper config files. 
+############################ Container images ##################################
+# The defaults pull from Docker Hub; Snakemake converts each image to a .sif once
+# and caches it under --apptainer-prefix. To use a .sif you built yourself
+# instead, set either of these in your Flipper config:
+#
+#   R_CONTAINER: "/tscc/nfs/home/YOUR_USER/containers/flipper-r.sif"
+#   PYTHON_CONTAINER: "/tscc/nfs/home/YOUR_USER/containers/flipper-py.sif"
+#
+# Run with --software-deployment-method apptainer (see the profiles/ configs).
+R_CONTAINER = config.get("R_CONTAINER", "docker://howardxu520/flipper:R_v1.0")
+PYTHON_CONTAINER = config.get("PYTHON_CONTAINER", "docker://howardxu520/flipper:python_v1.0")
+
+# Rules that shell out to scripts in the Skipper TOOL_DIR run in Skipper's own R
+# image rather than the Flipper one. Those scripts are written against dplyr < 1.1,
+# where summarize() could return more than one row per group; dplyr >= 1.1 (which
+# the Flipper R image ships) makes that a hard error pointing at reframe().
+SKIPPER_R_CONTAINER = config.get("SKIPPER_R_CONTAINER", "docker://howardxu520/skipper:R_4.1.3_1")
+
+# Complete some minor processing from the Skipper config files.
 CHROM_SIZES = STAR_DIR + "/chrNameLength.txt"
 UNINFORMATIVE_READ = str(3 - INFORMATIVE_READ)
 
@@ -235,8 +253,8 @@ rule preproccess:
         stdout = "stdout/preproccess.out",
         stderr = "stderr/preproccess.err",
     benchmark: "benchmarks/preproccess/preproccess.txt"
-    conda:
-        "envs/skipper_R.yaml"
+    container:
+        R_CONTAINER
     shell:
         """
         Rscript --vanilla {params.tool_dir}/preprocess.R \
@@ -275,8 +293,8 @@ rule calc_norm_factors:
         stdout = "stdout/calc_norm_factors.out",
         stderr = "stderr/calc_norm_factors.err",
     benchmark: "benchmarks/preproccess/calc_norm.txt"
-    conda:
-        "envs/Flipper_main.yaml"
+    container:
+        R_CONTAINER
     shell:
         """
         Rscript --vanilla {params.tool_dir}/calc_norm_factors.R \
@@ -323,8 +341,8 @@ rule differential_analysis:
         stdout = "stdout/differential_analysis.out",
         stderr = "stderr/differential_analysis.err",
     benchmark: "benchmarks/preproccess/differential_analysis.txt"
-    conda:
-        "envs/Flipper_main.yaml"
+    container:
+        R_CONTAINER
     shell:
         """
         Rscript --vanilla {params.tool_dir}/differential_analysis.R \
@@ -359,8 +377,8 @@ rule get_nt_coverage:
         stdout = "stdout/{window_type}.get_nt_coverage.out",
         stderr = "stderr/{window_type}.get_nt_coverage.err",
     benchmark: "benchmarks/get_nt_coverage/{window_type}.all_replicates.reproducible.txt"
-    conda:
-        "envs/bedbam_tools.yaml"
+    container:
+        PYTHON_CONTAINER
     shell:
         r"""
         set -euo pipefail
@@ -438,8 +456,8 @@ rule sample_background_windows_by_region:
         stdout = "stdout/{window_type}.sample_background_windows_by_region.out",
         stderr = "stderr/{window_type}.sample_background_windows_by_region.err",
     benchmark: "benchmarks/sample_background_windows_by_region/{window_type}.sample_background_windows_by_region.txt"
-    conda:
-        "envs/skipper_R.yaml"
+    container:
+        SKIPPER_R_CONTAINER
     shell:
         r"""
         set -euo pipefail
@@ -472,8 +490,8 @@ rule finemap_windows:
         stdout = "stdout/{window_type}.finemap_windows.out",
         stderr = "stderr/{window_type}.finemap_windows.err",
     benchmark: "benchmarks/finemap_windows/{window_type}.all_replicates.reproducible.txt"
-    conda:
-        "envs/skipper_R.yaml"
+    container:
+        R_CONTAINER
     shell:
         r"""
         set -euo pipefail
@@ -508,8 +526,8 @@ rule run_homer:
         stdout = "stdout/{window_type}.run_homer.out",
         stderr = "stderr/{window_type}.run_homer.err",
     benchmark: "benchmarks/run_homer/{window_type}.all_replicates.reproducible.txt"
-    conda:
-        "envs/homer.yaml"
+    container:
+        PYTHON_CONTAINER
     shell:
         r"""
         set -euo pipefail
@@ -552,8 +570,8 @@ rule Gene_ontology:
         stdout = "stdout/Gene_ontology.out",
         stderr = "stderr/Gene_ontology.err",
     benchmark: "benchmarks/postprocess/Gene_ontology.txt",
-    conda: 
-        "envs/R_GO.yaml"
+    container:
+        R_CONTAINER
     shell:
         """
         Rscript --vanilla {params.tool_dir}/gene_ontology.R \
@@ -582,8 +600,8 @@ rule Prep_Metadensity_Annotation:
         stdout = "stdout/Prep_Metadensity_Annotation.out",
         stderr = "stderr/Prep_Metadensity_Annotation.err",
     benchmark: "benchmarks/postprocess/Metadensity.txt",
-    conda:
-        "envs/metadensity.yaml"
+    container:
+        PYTHON_CONTAINER
     shell:
         """
         python {params.tool_dir}/prep_metadensity_annotation.py \
@@ -616,8 +634,8 @@ rule Window_Metadensity:
         stdout = "stdout/Metadensity.out",
         stderr = "stderr/Metadensity.err",
     benchmark: "benchmarks/postprocess/Metadensity.txt",
-    conda:
-        "envs/metadensity.yaml"
+    container:
+        PYTHON_CONTAINER
     shell:
         """
         python {params.tool_dir}/metadensity.py \
@@ -649,8 +667,8 @@ rule make_scaled_bigwig_from_bedgraph:
     resources:
         mem_mb= 16000,
         runtime= 60
-    conda:
-        "envs/bedbam_tools.yaml"
+    container:
+        PYTHON_CONTAINER
     log:
         stdout = "stdout/make_scaled_bigwig/{sample}.out",
         stderr = "stderr/make_scaled_bigwig/{sample}.err"
