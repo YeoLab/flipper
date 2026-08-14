@@ -68,7 +68,7 @@ PYTHON_CONTAINER = config.get("PYTHON_CONTAINER", "docker://howardxu520/flipper:
 # image rather than the Flipper one. Those scripts are written against dplyr < 1.1,
 # where summarize() could return more than one row per group; dplyr >= 1.1 (which
 # the Flipper R image ships) makes that a hard error pointing at reframe().
-SKIPPER_R_CONTAINER = config.get("SKIPPER_R_CONTAINER", "docker://howardxu520/skipper:R_4.1.3_1")
+SKIPPER_R_CONTAINER = config.get("SKIPPER_R_CONTAINER", "docker://howardxu520/skipper:R_v1.0")
 
 # Complete some minor processing from the Skipper config files.
 CHROM_SIZES = STAR_DIR + "/chrNameLength.txt"
