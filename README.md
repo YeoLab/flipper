@@ -110,9 +110,9 @@ NOTE: The first run of Flipper needs to set up all of the necessary conda enviro
 
 NOTE: If difficulties arise while running this example (or any run of Flipper) please see the [Troubleshooting](#Troubleshooting) section and/or open an issue. 
 
-## Preparing a new Flipper run:
+# Preparing a new Flipper run:
 
-### Config file
+## Config file
 
 Flipper includes a range of parameters to accommodate user preferences and diverse biological questions. These settings are defined in a config.yaml file, which is supplied to Snakemake during execution. An example configuration file (`example/example_flipper_config.yaml`) is provided in this repository, and detailed descriptions of all available options are listed below.
 
@@ -139,7 +139,7 @@ Flipper includes a range of parameters to accommodate user preferences and diver
 
 NOTE ON NORMALIZATION: Normalizing eCLIP data across seperate treatments is complicated, and defining a singular best normalization method is difficult. Generally speaking, MOR_hier normalization is sufficient for most use cases, while EDASeq_hier is useful if you want extra control over confounding factors like GC content and length. Please see the "Choosing a Normalization Method" section for more details.
 
-### Choosing a normalization method: 
+## Choosing a normalization method: 
 
 - Median of Ratios hierarchical (MOR_hier) is a simple and robust normalization option, making it ideal for most differential RBP binding analyses. However, it does have some caveats, such as not correcting for GC-bias or length (please note that identical regions are compared across conditions, making the effect of these biases less significant than if one was comparing binding between different regions). 
 - EDASeq hierarchical (EDA_hier) normalization utilizes more advanced normalization techniques that attempt to control for additional factors such as GC and length bias. As such, EDASeq offers several normalization techniques for each of its three normalization steps, GC normalization, length normalization, and traditional cross-sample normalization. For more information on EDASeq normalization, please see the [original publication](https://pubmed.ncbi.nlm.nih.gov/22177264/) and the [vignette](https://bioconductor.org/packages/release/bioc/vignettes/EDASeq/inst/doc/EDASeq.html). We have personally found that using the full quantile normalization (full) for all options works best.
@@ -147,11 +147,11 @@ NOTE ON NORMALIZATION: Normalizing eCLIP data across seperate treatments is comp
 
 For more information on normalization techniques, including Flipper's hierarchical IP normalization method, please see the [preprint](https://doi.org/10.64898/2026.03.13.711628)
 
-## Flipper Output
+# Flipper Output
 
 Flipper generates a variety of output files that are organized into different folders.
 
-### Tables
+## Tables
 
 Flipper creates several tab-delimited tables that summarize the results of the differential binding analysis:
 - differential_windows.tsv
@@ -168,7 +168,7 @@ Flipper creates several tab-delimited tables that summarize the results of the d
         - The minimum p-value observed among the gene’s windows.
         - The log fold change corresponding to the window with the minimum p-value.
 
-### Plots
+## Plots
 
 Flipper produces a variety of plots to help visualize and interpret differential binding results:
 - Volcano plots — Show the distribution of log fold changes vs. p-values for all tested windows.
@@ -180,17 +180,17 @@ Flipper produces a variety of plots to help visualize and interpret differential
 - Gene Ontology enrichment — Highlights enriched GO terms for genes with upregulated or downregulated windows.
 - Metadensity — Shows the relative information of the CLIP data across user specified regions. For more information on metadensity, please see the [original publication](https://pubmed.ncbi.nlm.nih.gov/36388152/)
 
-### HOMER Motif Analysis
+## HOMER Motif Analysis
 
 Flipper automatically runs HOMER motif analysis on significantly upregulated and downregulated windows. This helps identify whether specific sequence motifs are over-represented within affected regions. For more details on these outputs, please see [HOMER](http://homer.ucsd.edu/homer/motif/).
 
-### Intermediates
+## Intermediates
 
 Flipper saves several intermediate datasets produced during differential site calling. These files can be useful for custom analyses, but most users can ignore them for routine use.
 
-### Tracks
+## Tracks
 
-Skipper outputs bedGraphs and bigWigs for each replicate. These outputs have been scaled using the same normalization factors used by Flipper during analysis, and can thus be helpful to understand how Flipper identifies differential regions. 
+Flipper outputs bedGraphs and bigWigs for each replicate. These outputs have been scaled using the same normalization factors used by Flipper during analysis, and can thus be helpful to understand how Flipper identifies differential regions. 
 
 For unscaled tracks, please see the Skipper output. 
 

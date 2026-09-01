@@ -3,7 +3,7 @@ SKIPPER_CONFIG: /tscc/projects/ps-yeolab4/software/flipper/1.0.0/bin/flipper/exa
 SKIPPER_OUTPUT: /tscc/projects/ps-yeolab4/software/flipper/1.0.0/bin/flipper/example/example_skipper_run
 
 # Required Output path
-WORKDIR: /tscc/nfs/home/YOUR_USERNAME/scratch/ch_diffbind/example/output
+WORKDIR: /tscc/nfs/home/YOUR_USERNAME/scratch/flipper_test
 TOOLS: /tscc/projects/ps-yeolab4/software/flipper/1.0.0/bin/flipper/tools 
 
 # Required Differential comparison, we always have (TREATMENT/CONTROL), so look for + log2FC for up-regulation in TREATMENT.
