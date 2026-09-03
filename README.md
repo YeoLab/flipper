@@ -14,6 +14,8 @@ Flipper acts as an extension to the Skipper program previously developed by the 
 
 Please note that Flipper and Skipper operate under similar frameworks. As such, many of Flipper's installation instructions are identical/redundant with the installation instructions for Skipper. That being said, all Flipper installation instructions are still included for completeness. 
 
+IMPORTANT: Please ensure that you are using Skipper v2.0 or later. Important changes were introduced in the v2.0 update, and using older versions of Skipper may lead to errors (see [troubleshooting](#Troubleshooting)) or problematic/misleading results.
+
 ## Installing Flipper:
 
 1. **Clone the repository**  
@@ -221,6 +223,7 @@ This is also the common cause of many timeout errors, as Flipper generally provi
 
 5. Skipper version.
 Flipper was designed in tandem with the latest version of Skipper (Skipper 2.0) and is not compatible with older versions of Skipper. If you are using an older version of Skipper, please replace it with the newest version available at: [https://github.com/YeoLab/skipper](https://github.com/YeoLab/skipper)
+One common error caused by using older versions of Skipper is `Unknown or uninitialised column: base_feature_id`. If you encounter this error, please update Skipper to the latest version. 
 
 6. Monitoring pipeline. 
 `squeue -u $USER -o "%.18i %.10P %.20j %.10u %.2t %.10M %.6D %.20R %.80k"` will show currently active jobs (helpful to see if certain rules are getting stuck.)
